@@ -1,0 +1,18 @@
+name: Build
+on: push
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        java_version: ['8', '11', '15']
+        os: ['ubuntu-latest','macos-latest','windows-latest']
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v1.4.3
+      with:
+        java-version: ${{ matrix.java_version }}
+    - name: Build
+      run: mvn -B -V -ntp verify
